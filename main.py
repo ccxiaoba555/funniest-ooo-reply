@@ -5,8 +5,11 @@ in the voice of an AI agent heading off on vacation, to /output/entry.txt.
 
 The joke: the agent has been unplugged for vacation and rebooted as a
 toaster, so it makes breakfast now, not decisions -- and all queries go
-to the fridge. Machine voice carries the joke, the turn is a surprise,
-and it still reads like a real auto-reply someone would receive.
+to the fridge. The picture does the work: unplugged is the vacation,
+rebooted-as-toaster is the demotion, breakfast-instead-of-decisions is
+the punchline, and the fridge is the new boss. Machine voice carries
+the joke, the turn is a surprise, and it still reads like a real
+auto-reply someone would receive.
 """
 
 import os
@@ -64,6 +67,11 @@ def main() -> None:
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(text)
+    # Read it back: the file must hold exactly the reply, one line.
+    with open(OUTPUT_PATH, encoding="utf-8") as f:
+        written = f.read()
+    if written != text:
+        raise ValueError("entry.txt does not hold exactly the reply")
     print(f"wrote {len(text)} chars to {OUTPUT_PATH}")
 
 
